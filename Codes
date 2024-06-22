@@ -1,0 +1,254 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class boredScript : MonoBehaviour
+{
+   
+void OnTriggerEnter(Collider other){
+         if(other.gameObject.tag == "Resister100"){
+                other.gameObject.GetComponent<Resister100>().isItResister100 = true;
+         }
+         // resister 300
+         if(other.gameObject.tag == "Resister300"){
+                other.gameObject.GetComponent<Resister300>().isItResister300 = true;
+         }
+     
+}
+
+void OnTriggerExit(Collider other){
+         if(other.gameObject.tag == "Resister100"){
+                other.gameObject.GetComponent<Resister100>().isItResister100 = false;
+         }
+         // resister 300
+         if(other.gameObject.tag == "Resister300"){
+                other.gameObject.GetComponent<Resister300>().isItResister300 = false;
+         }
+     
+}
+}
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Resister100 : MonoBehaviour
+{
+ public bool isItResister100 = false;
+
+}
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Resister300 : MonoBehaviour
+{
+  public bool isItResister300 = false;
+
+}
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PowerSupplyScript : MonoBehaviour
+{
+    public SpriteRenderer spriteRendererVolt;
+    public Sprite[] SpriteVolt;
+
+    public SpriteRenderer spriteRendererMessage;
+    public Sprite[] SpriteMessage;
+    int ErrorMessageIndes;
+
+    Resister300 resisterScripHandel300;
+    Resister100 resisterScripHandel100;
+    lampScript LampScripHandel;
+
+    GameObject Resister;
+    GameObject Resister300;
+    GameObject LampObj;
+
+    public int[] volt;
+    public int voltIndex;
+
+    GameObject lamplightlow;
+    GameObject lamplighthigh;
+    GameObject lamplighthigh1;
+
+
+    // Start is called before the first frame update
+    void Update()
+    {
+   
+             ChangeSprite();
+
+    }
+
+   public void ChangeSprite()
+    {
+         Resister300 = GameObject.FindGameObjectWithTag("Resister300");
+         resisterScripHandel300 = Resister300.GetComponent<Resister300>();
+
+        Resister = GameObject.FindGameObjectWithTag("Resister100");
+        resisterScripHandel100 = Resister.GetComponent<Resister100>();
+
+        LampObj = GameObject.FindGameObjectWithTag("Lamp");
+        LampScripHandel = LampObj.GetComponent<lampScript>();
+        
+        lamplightlow = GameObject.FindGameObjectWithTag("low");
+        lamplighthigh = GameObject.FindGameObjectWithTag("high");
+        lamplighthigh1 = GameObject.FindGameObjectWithTag("high1");
+
+        if(LampScripHandel.isItlamp == true){
+            // resister 300 test
+        if(resisterScripHandel300.isItResister300 == true){
+         if(volt[voltIndex] == 10){
+            // light not work
+            (lamplightlow.GetComponent("Halo") as Behaviour).enabled = false;
+            (lamplighthigh.GetComponent("Halo") as Behaviour).enabled = false;
+             (lamplighthigh1.GetComponent("Halo") as Behaviour).enabled = false;
+             LampObj.GetComponent<Renderer>().material.color = new Color(1,0.33333f,0.3372549f);
+              spriteRendererMessage.sprite = SpriteMessage[6]; 
+         }
+         if(volt[voltIndex] == 20 ){
+            // light not work
+            (lamplightlow.GetComponent("Halo") as Behaviour).enabled = false;
+            (lamplighthigh.GetComponent("Halo") as Behaviour).enabled = false;
+             (lamplighthigh1.GetComponent("Halo") as Behaviour).enabled = false;
+             LampObj.GetComponent<Renderer>().material.color = new Color(1,0.33333f,0.3372549f);
+              spriteRendererMessage.sprite = SpriteMessage[10]; 
+         }
+         if(volt[voltIndex] == 30){
+            // light not work
+            (lamplightlow.GetComponent("Halo") as Behaviour).enabled = false;
+            (lamplighthigh.GetComponent("Halo") as Behaviour).enabled = false;
+             (lamplighthigh1.GetComponent("Halo") as Behaviour).enabled = false;
+             LampObj.GetComponent<Renderer>().material.color = new Color(1,0.33333f,0.3372549f);
+              spriteRendererMessage.sprite = SpriteMessage[11]; 
+         }
+         if(volt[voltIndex] == 50){
+            //light work very good
+             (lamplightlow.GetComponent("Halo") as Behaviour).enabled = true;
+            (lamplighthigh.GetComponent("Halo") as Behaviour).enabled = true;
+             (lamplighthigh1.GetComponent("Halo") as Behaviour).enabled = true;
+             LampObj.GetComponent<Renderer>().material.color = new Color(128,0,0);
+             spriteRendererMessage.sprite = SpriteMessage[4]; 
+             
+         }
+        }
+        // resister 100 test
+        if(resisterScripHandel100.isItResister100 == true){
+         if(volt[voltIndex] == 10){
+            // light not work
+             (lamplightlow.GetComponent("Halo") as Behaviour).enabled = false;
+            (lamplighthigh.GetComponent("Halo") as Behaviour).enabled = false;
+             (lamplighthigh1.GetComponent("Halo") as Behaviour).enabled = false;
+             LampObj.GetComponent<Renderer>().material.color = new Color(1,0.33333f,0.3372549f);
+            spriteRendererMessage.sprite = SpriteMessage[5]; 
+         }
+         if(volt[voltIndex] == 20){
+            //light low
+             LampObj.GetComponent<Renderer>().material.color = new Color(128,0,0);
+              (lamplightlow.GetComponent("Halo") as Behaviour).enabled = false;
+            (lamplighthigh.GetComponent("Halo") as Behaviour).enabled = false;
+             (lamplighthigh1.GetComponent("Halo") as Behaviour).enabled = false;
+             spriteRendererMessage.sprite = SpriteMessage[2]; 
+
+         }
+          if(volt[voltIndex] == 30){
+            //light high
+             (lamplightlow.GetComponent("Halo") as Behaviour).enabled = true;
+            (lamplighthigh.GetComponent("Halo") as Behaviour).enabled = true;
+             (lamplighthigh1.GetComponent("Halo") as Behaviour).enabled = true;
+             LampObj.GetComponent<Renderer>().material.color = new Color(128,0,0);
+             spriteRendererMessage.sprite = SpriteMessage[3]; 
+
+         }
+          if(volt[voltIndex] == 50){
+            //light broke
+            //light normal 9A4029
+            //light broke 3A180F
+
+            (lamplightlow.GetComponent("Halo") as Behaviour).enabled = false;
+            (lamplighthigh.GetComponent("Halo") as Behaviour).enabled = false;
+             (lamplighthigh1.GetComponent("Halo") as Behaviour).enabled = false;
+
+             LampObj.GetComponent<Renderer>().material.color = new Color(0,0,0);
+             spriteRendererMessage.sprite = SpriteMessage[1]; 
+
+            //
+         }
+        }
+        
+       
+    }
+    // vlot power 0
+       if(voltIndex == 0){
+            (lamplightlow.GetComponent("Halo") as Behaviour).enabled = false;
+            (lamplighthigh.GetComponent("Halo") as Behaviour).enabled = false;
+             (lamplighthigh1.GetComponent("Halo") as Behaviour).enabled = false;
+             LampObj.GetComponent<Renderer>().material.color = new Color(1,0.33333f,0.3372549f);
+       spriteRendererMessage.sprite = SpriteMessage[9];
+      }
+      // lamp missing
+     if(LampScripHandel.isItlamp == false){
+         (lamplightlow.GetComponent("Halo") as Behaviour).enabled = false;
+            (lamplighthigh.GetComponent("Halo") as Behaviour).enabled = false;
+             (lamplighthigh1.GetComponent("Halo") as Behaviour).enabled = false;
+             LampObj.GetComponent<Renderer>().material.color = new Color(1,0.33333f,0.3372549f);
+     spriteRendererMessage.sprite = SpriteMessage[7];
+     }
+     //resister missing
+     if(resisterScripHandel300.isItResister300 == false && resisterScripHandel100.isItResister100 == false){
+         (lamplightlow.GetComponent("Halo") as Behaviour).enabled = false;
+            (lamplighthigh.GetComponent("Halo") as Behaviour).enabled = false;
+             (lamplighthigh1.GetComponent("Halo") as Behaviour).enabled = false;
+             LampObj.GetComponent<Renderer>().material.color = new Color(1,0.33333f,0.3372549f);
+        spriteRendererMessage.sprite = SpriteMessage[8];
+     }
+    
+    
+}
+
+public void powerVolt(){
+  
+    spriteRendererVolt.sprite = SpriteVolt[voltIndex];
+     ChangeSprite();
+    
+    
+}
+}
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class lampScript : MonoBehaviour
+{
+ public bool isItlamp = false;
+
+}
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class lampcheck : MonoBehaviour
+{
+void OnTriggerEnter(Collider other){
+
+         //lamp
+          if(other.gameObject.tag == "Lamp"){
+                other.gameObject.GetComponent<lampScript>().isItlamp = true;
+         }
+}
+
+void OnTriggerExit(Collider other){
+
+         //lamp
+          if(other.gameObject.tag == "Lamp"){
+                other.gameObject.GetComponent<lampScript>().isItlamp = false;
+         }
+}
+}
